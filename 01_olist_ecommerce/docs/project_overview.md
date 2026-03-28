@@ -1,54 +1,19 @@
-# Project Overview
+# Olist E-Commerce Analytics Portfolio
 
-## Summary
+## 1. Project Summary
+This end-to-end project transforms raw Olist e-commerce multi-table data (100k+ orders) in PostgreSQL into a highly optimized, trustworthy reporting layer for Power BI.
 
-This project analyzes Olist e-commerce sales data in PostgreSQL and prepares a clean reporting layer for Power BI. The emphasis is on trustworthy metrics, not just query output.
+## 2. Business Architecture
+The reporting suite drives actionable insights across three strategic core pillars:
+1. **Executive Overview:** High-level trend analysis tracking valid revenue, order volume, Average Order Value (AOV), and top-performing categories.
+2. **Logistics Performance:** Operational deep-dive to calculate On-Time Delivery Rate (OTDR), average delivery lead times, and pinpoint geo-spatial bottlenecks using Shape Maps.
+3. **Customer Loyalty (Upcoming):** Retention, RFM segmentation, and Customer Satisfaction (CSAT) analysis through historic order reviews.
 
-## Problem
+## 3. Data Engineering & Modeling Approach
+To avoid severe multi-grain duplication risks (e.g., joining multiple items and payments directly), the database was re-architected into a clean **Star Schema**:
+- **Accumulating Snapshot Fact Table (`fact_orders`):** Consolidated all critical delivery lifecycle timestamps (`purchase`, `approved`, `carrier`, `delivered`) into a single row per order. This aggressively optimizes time-intelligence calculations for Power BI's VertiPaq engine.
+- **Safe Pre-Aggregation Pipeline:** Grouped and aggregated `order_items` and `order_payments` using SQL CTEs prior to joining with the base orders table, completely eliminating many-to-many errors.
+- **Strict Logic Handling:** Mitigated order funnel blanks by strictly filtering out `Canceled` or `Unavailable` order statuses during DAX evaluations.
 
-The raw dataset contains multiple related tables at different grains:
-
-- orders
-- order items
-- payments
-- products
-- customers
-
-Without validating those relationships first, revenue can be double-counted when order items and payments are joined together.
-
-## Approach
-
-The project was completed in three stages:
-
-1. Explore table grain, duplicates, and missing relationships
-2. Build analytical views with safe aggregation logic
-3. Answer core business questions with reusable SQL
-
-## Important Data Decisions
-
-- Use `orders` as the base grain for order-level metrics
-- Aggregate `order_items` and `order_payments` before joining
-- Use `payment_value` for order-level revenue
-- Use item `price` for category-level revenue because payment values cannot be safely allocated across categories within mixed-category orders
-- Exclude `canceled` and `unavailable` orders from revenue reporting
-
-## Quality Findings
-
-- 9,803 orders contain multiple items
-- 2,961 orders contain multiple payment rows
-- 275 orders would create many-to-many duplication risk if items and payments were joined directly
-- 1 delivered order has items but no payment record
-- No orphan rows were found in `order_items` or `order_payments`
-
-## Outcome
-
-The resulting SQL layer provides two dashboard-ready views:
-
-- `clean_orders`
-- `clean_order_category_sales`
-
-These views support time-series revenue analysis, category performance analysis, and regional sales analysis in Power BI.
-
-## Next Step
-
-Build a Power BI dashboard using these views as the reporting source and document the final business insights with screenshots and commentary.
+## 4. Outcome
+The resulting SQL layer feeds a lightweight, highly interactive Power BI dashboard (`Porfolio_Olist.pbix`). The final product empowers stakeholders to dynamically drill down into complex performance metrics across temporal and geographical dimensions.
