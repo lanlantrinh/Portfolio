@@ -22,7 +22,6 @@
 ### 4. Repository Structure
 - `/sql`: SQL scripts for schema creation, data exploration, and the final analytical views.
 - `/scripts`: Utility scripts to initialize the local PostgreSQL Docker container.
-- `/docs`: Architectural documentation and dashboard preview images.
-- `/dashboard/ Porfolio_Olist.pbix`: The interactive Power BI dashboard file.
+- `/dashboard`: The interactive Power BI dashboard file and PDF file.
 - `README.md`: This file.
        
