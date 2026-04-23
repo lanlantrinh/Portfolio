@@ -1,47 +1,28 @@
-# Olist E-commerce Analytics
+## Olist E-commerce Analytics: Operations & CX Dashboard
+### 1. The Dataset
+- **Source:** [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+- **Context:** Olist is the largest department store in Brazilian marketplaces. This dataset contains information of 100,000+ orders made at multiple marketplaces in Brazil from 2016 to 2018. Its features allow viewing an order from multiple dimensions: from order status, price, payment, and freight performance to customer location, product attributes, and reviews.
 
-An end-to-end data analytics portfolio project built on the Olist Brazilian E-commerce dataset. The project encompasses a data warehouse build in PostgreSQL and a high-impact BI suite in Power BI.
+### 2. Business Questions Answered
+- **Revenue Trend:** Are sales actually growing month-over-month, or just plateauing?
+- **Delivery Delays:** Why are orders late? Is it the seller's fault or the carrier's fault?
+- **Customer Satisfaction:** How much do late deliveries hurt our 1-star review rate?
+- **Product Performance:** Which product categories sell the best, and which ones get the worst reviews?
 
-## Business Objective
+### 3. Dashboard Previews
+**Executive Overview:**
+<img width="1280" height="721" alt="image" src="https://github.com/user-attachments/assets/65b4b803-01ca-4cb5-bbdc-cf28887146b3" />
 
-The goal is to translate 100,000+ raw e-commerce transactions into a highly actionable C-level dashboard suite. The reporting targets three core business pillars:
-1. **Financial Health:** Moving beyond volume metrics to analyze MoM% growth and true momentum.
-2. **Supply Chain Operations:** Isolating seller processing delays from carrier transit bottlenecks.
-3. **Customer Experience (CX):** Quantifying the exact cost of late deliveries on customer satisfaction (CSAT) and reviews.
+**Logistics Operations:**
+<img width="1407" height="789" alt="image" src="https://github.com/user-attachments/assets/ec8883c1-6142-40da-a8c6-e3e1ae36502e" />
 
-## Dashboard Deliverables
+**Customer Experience (CX):**
+<img width="1406" height="791" alt="image" src="https://github.com/user-attachments/assets/e8c4de12-b349-40c0-9fd1-5d0d41752b88" />
 
-The Power BI reporting layer (`Porfolio_Olist.pbix`) breaks down the complex Olist data model into three distinct, consultant-grade dashboards:
-
--   **Executive Overview:** Uncovers the "Illusion of Growth" by pairing absolute Revenue columns with a MoM% Growth secondary axis line, revealing that despite high volume, momentum stagnated in late 2018.
--   **Logistics Checkup:** Deconstructs the delivery lifecycle. Employs a bottleneck analysis to prove that average seller processing time stays stable at 3 days, while carrier transit times ballooned to 13+ days, effectively identifying the root cause of delays.
--   **CX & Service Impact:** Uses 100% Stacked Column charts to visually prove the direct correlation between "Delivered Late" statuses and massive spikes in 1-star reviews. Incorporates a dynamic Risk Matrix (Scatter Plot) to isolate underperforming product categories.
-
-## Technical Execution & Data Engineering
-
-To ensure the Power BI dashboard runs efficiently without multi-grain duplication risks, a robust SQL layer was constructed before visualization:
-
--   **Safe Joins & Star Schema:** Analyzed the risk of joining `order_items` (many per order) and `order_payments` (many per order) directly. 
--   **Pre-Aggregation Views:** Built `fact_orders` using SQL CTEs to aggregate item and payment tables before joining them to the base orders table, eliminating many-to-many cardinality errors.
--   **Advanced DAX:** Mitigated bidirectional filtering risks in the CX Scatter Plot by utilizing `CALCULATE` with `CROSSFILTER`, protecting the star schema's integrity while enabling cross-table analytics.
-
-## Repository Structure
-
-- `sql/`: Contains PostgreSQL schema, exploration scripts, and the final views (`04_create_views.sql`) establishing the analytical data model.
-- `docs/`: Concise business case summaries.
-- `scripts/`: Shell and PowerShell utility scripts for local database initialization.
-
-## How To Run
-
-Start the local PostgreSQL database:
-```bash
-./scripts/db-init.sh
-```
-Load the Olist CSV files:
-```bash
-./scripts/load_olist_csvs.sh "/path/to/olist-csv-folder"
-```
-
-## Why This Project Stands Out
-
-This project goes beyond merely dragging charts onto a canvas. It focuses on validating data grain, safely orchestrating one-to-many relationships, and strictly adhering to executive "storytelling" principles (actionable insights over pure descriptive statistics).
+### 4. Repository Structure
+- `/sql`: SQL scripts for schema creation, data exploration, and the final analytical views.
+- `/scripts`: Utility scripts to initialize the local PostgreSQL Docker container.
+- `/docs`: Architectural documentation and dashboard preview images.
+- `/dashboard/ Porfolio_Olist.pbix`: The interactive Power BI dashboard file.
+- `README.md`: This file.
+       
