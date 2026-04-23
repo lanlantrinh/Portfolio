@@ -1,0 +1,16 @@
+# Ignore huge raw data datasets
+data/*.csv
+data/*.zip
+
+# Power BI temp files
+*.pbix.zip
+*.pbit
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

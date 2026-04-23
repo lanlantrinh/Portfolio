@@ -1,0 +1,9 @@
+.DS_Store
+
+# Local project data
+01_olist_ecommerce/data/*.csv
+!01_olist_ecommerce/data/.gitkeep
+
+# Power BI local artifacts
+*.pbix.autosave
+*.tmp

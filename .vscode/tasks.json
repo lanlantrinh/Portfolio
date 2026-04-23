@@ -1,0 +1,52 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Olist: Start Postgres",
+      "type": "shell",
+      "command": "./scripts/db-init.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/01_olist_ecommerce"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Olist: Load CSV Data",
+      "type": "shell",
+      "command": "./scripts/load_olist_csvs.sh \"${input:olistCsvFolder}\"",
+      "options": {
+        "cwd": "${workspaceFolder}/01_olist_ecommerce"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Olist: Open psql",
+      "type": "shell",
+      "command": "./scripts/psql.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/01_olist_ecommerce"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "olistCsvFolder",
+      "type": "promptString",
+      "description": "Enter the folder that contains the Olist CSV files",
+      "default": "${workspaceFolder}/01_olist_ecommerce/data"
+    }
+  ]
+}
